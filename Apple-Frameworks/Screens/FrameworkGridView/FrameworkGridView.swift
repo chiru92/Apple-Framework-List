@@ -12,26 +12,18 @@ struct FrameworkGridView: View {
     @StateObject var viewModel = FrameworkGridViewModel()
     
     var body: some View {
-        ZStack {
-            //BackgroundView()
-            NavigationView {
-                ScrollView {
-                    LazyVGrid(columns: viewModel.columns) {
-                        ForEach(MockData.frameworks) { framework in
-                            FrameworkTitleView(framework: framework)
-                                .onTapGesture {
-                                    viewModel.selectedFramework = framework
-                                }
-                        }
+        NavigationView {
+            List {
+                ForEach(MockData.frameworks) { framework in
+                    NavigationLink(
+                        destination: FrameworkDetailView(framework: framework, isShowingDetailsView: $viewModel.isShowingDetailsView)) {
+                        FrameworkTitleView(framework: framework)
                     }
                 }
-                .navigationTitle("🍎 Frameworks")
-                .sheet(isPresented: $viewModel.isShowingDetailsView) {
-                    FrameworkDetailView(framework: viewModel.selectedFramework ?? MockData.sampleFramework,
-                                        isShowingDetailsView: $viewModel.isShowingDetailsView)
-                }
             }
+            .navigationTitle("🍎 Frameworks")
         }
+        .accentColor(Color(.label))
     }
 }
 
