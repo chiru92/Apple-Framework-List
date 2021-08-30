@@ -8,25 +8,27 @@
 import SwiftUI
 
 struct FrameworkDetailView: View {
-    var framework: Framework
-    @Binding var isShowingDetailsView: Bool
-    @State private var isShowingSafariView = false
+    @ObservedObject var viewModel: FrameworkDetailViewModel
     
     var body: some View {
         VStack {
             
             //Spacer()
             
-            FrameworkTitleView(framework: framework)
+            FrameworkTitleView(framework: viewModel.framework)
             
-            Text(framework.description)
+            Text(viewModel.framework.description)
                 .font(.body)
                 .padding()
             
             Spacer()
              
-            Button {
-                isShowingSafariView = true
+            Link(destination:  URL(string: viewModel.framework.urlString) ?? URL(string: "ahttps://developer.apple.com/")!, label: {
+                AFButton(title: "Learn More")
+            })
+            
+            /*Button {
+                $viewModel.isShowingSafariView = true
             } label: {
                 AFButton(title: "Learn More")
             }
@@ -34,13 +36,14 @@ struct FrameworkDetailView: View {
                 SafariView(url: URL(string: framework.urlString) ?? URL(string: "ahttps://developer.apple.com/")!)
             })
             .padding()
+            */
         }
     }
 }
 
 struct FrameworkDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        FrameworkDetailView(framework: MockData.sampleFramework, isShowingDetailsView: .constant(false))
+        FrameworkDetailView(viewModel: FrameworkDetailViewModel(framework: MockData.sampleFramework, isShowingDetailsView: .constant(false)))
             .preferredColorScheme(.dark)
     }
 }

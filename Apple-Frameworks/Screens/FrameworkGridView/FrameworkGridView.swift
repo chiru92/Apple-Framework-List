@@ -16,7 +16,7 @@ struct FrameworkGridView: View {
             List {
                 ForEach(MockData.frameworks) { framework in
                     NavigationLink(
-                        destination: FrameworkDetailView(framework: framework, isShowingDetailsView: $viewModel.isShowingDetailsView)) {
+                        destination: FrameworkDetailView(viewModel: FrameworkDetailViewModel(framework: framework, isShowingDetailsView: $viewModel.isShowingDetailsView))) {
                         FrameworkTitleView(framework: framework)
                     }
                 }
